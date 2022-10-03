@@ -1,2 +1,2 @@
-# daa_in_c-
-Data Structure and algorithms in c++
+# data structure_in_cpp
+All algorithms implemented in Python - for education
