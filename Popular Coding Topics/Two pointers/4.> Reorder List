@@ -1,0 +1,79 @@
+Q.> You are given the head of a singly linked-list. The list can be represented as:
+
+L0 → L1 → … → Ln - 1 → Ln
+Reorder the list to be on the following form:
+
+L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+You may not modify the values in the list's nodes. Only nodes themselves may be changed.
+
+sol.> typedef ListNode node;
+class Solution {
+public:
+    int count(node **head)
+    {
+       node* temp = *head;
+       int c = 0;
+        
+       while(temp != NULL)
+       {
+          temp=temp->next;
+          c++;
+       }
+        
+       return c;
+    }
+    
+    node* rev(node* head)
+    {
+        if(head == NULL || head->next == NULL)
+            return head;
+        
+        node* temp = rev(head->next);
+        
+        head->next->next = head;
+        head->next = NULL;
+        return temp;
+    }
+    
+    void reorderList(ListNode* head) {
+        
+        if(head->next == NULL)
+            return;
+        
+        int n = count(&head);
+        
+        int mid = (n+1)/2;
+        
+        node *temp = head ;
+        int idx = 0;
+        
+        while(idx != mid)
+        {
+            idx++;
+            temp = temp->next;
+        }
+        
+        temp = rev(temp);
+        node* ans = head , *ans_tail = head;
+        head = head->next;
+        
+        while(temp != NULL)
+        {
+            ans_tail->next =  temp;
+            temp = temp->next;
+            ans_tail = ans_tail->next;
+            ans_tail->next = head;
+            ans_tail = ans_tail->next;
+            head= head->next;
+        }
+        
+        if(ans_tail!= NULL)
+            ans_tail->next = NULL;
+        
+         head  = ans;
+        
+        
+    }
+};
+
+Problem link -> https://leetcode.com/problems/reorder-list/
