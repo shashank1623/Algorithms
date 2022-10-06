@@ -1,0 +1,62 @@
+Q.>Given an integer array nums, 
+   return all the triplets [nums[i], nums[j], nums[k]] 
+   such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+sol.>    
+  vector<vector<int>> threeSum(vector<int>& arr) {
+        
+        int n = arr.size();
+        
+        vector<vector<int>>ans;
+        
+        
+        if(n<3)
+            return ans;
+        
+         sort(arr.begin(),arr.end());
+        
+        
+         for(int i=0;i<n-2;i++)
+         {
+             long long sum = -arr[i];
+             int s = i+1, e = n-1;
+             
+             if(i && arr[i] == arr[i-1])
+             continue;
+             
+             while(s<e)
+             {
+                 if(arr[s]+arr[e] > sum)
+                 e--;
+                     
+                 
+                 else if(arr[s]+arr[e] < sum)
+                 s++;
+                     
+                 
+                 else
+                 {
+                       vector<int>temp(3,0);
+                     
+                       temp[0]=arr[i];
+                       temp[1]=arr[s];
+                       temp[2]=arr[e];
+                      
+                       ans.push_back(temp);
+                       
+                       s++;
+                      
+                       
+                     
+                       while(s<e && arr[s] ==arr[s-1])
+                           s++;
+                 }
+             }
+             
+         }   
+        
+        return ans;
+    }
+    
+    
+   Problem link -> https://leetcode.com/problems/3sum
