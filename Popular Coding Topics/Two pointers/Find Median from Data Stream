@@ -1,0 +1,46 @@
+problem statement:-
+
+The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value and the median is the mean of the two middle values.
+
+For example, for arr = [2,3,4], the median is 3.
+For example, for arr = [2,3], the median is (2 + 3) / 2 = 2.5.
+Implement the MedianFinder class:
+
+MedianFinder() initializes the MedianFinder object.
+void addNum(int num) adds the integer num from the data stream to the data structure.
+double findMedian() returns the median of all elements so far. Answers within 10-5 of the actual answer will be accepted.
+
+solution:-
+
+class MedianFinder {
+private:
+    priority_queue<int> firstQ; // max_heap for the first half
+    priority_queue<int, std::vector<int>, std::greater<int> > secQ; // min_heap for the second half
+public:
+    // Adds a number into the data structure.
+    void addNum(int num) {
+        if(firstQ.empty() || (firstQ.top()>num)) firstQ.push(num); // if it belongs to the smaller half
+        else secQ.push(num); 
+        
+        // rebalance the two halfs to make sure the length difference is no larger than 1
+        if(firstQ.size() > (secQ.size()+1))
+        {
+            secQ.push(firstQ.top());
+            firstQ.pop();
+        }
+        else if(firstQ.size()+1<secQ.size())
+        {
+            firstQ.push(secQ.top());
+            secQ.pop();
+        }
+    }
+
+    // Returns the median of current data stream
+    double findMedian() {
+        if(firstQ.size() == secQ.size()) return firstQ.empty()?0:( (firstQ.top()+secQ.top())/2.0);
+        else return (firstQ.size() > secQ.size())? firstQ.top():secQ.top(); 
+    }
+};
+
+
+problem statement:-  https://leetcode.com/problems/find-median-from-data-stream/
