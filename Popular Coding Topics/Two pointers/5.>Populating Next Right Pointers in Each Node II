@@ -1,0 +1,42 @@
+/*PROBLEM STATEMENT:-
+Given a binary tree
+
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+*/
+
+
+Node* connect(Node* root) {
+    if(!root) return NULL;
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty())
+    {
+        int sz=q.size();
+        while(sz!=0)
+        {
+            Node* node=q.front();   
+            q.pop();
+			/* Main Twist Here */
+            if(sz==1)  //if it the last node of the level make its next NULL
+                node->next=NULL;
+            else
+                node->next=q.front();
+            if(node->left) q.push(node->left);
+            if(node->right) q.push(node->right);
+            sz--;
+        }
+    }
+    return root;
+}
+
+
+// https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
