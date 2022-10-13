@@ -1,0 +1,87 @@
+problem 
+Given two version numbers, version1 and version2, compare them.
+
+Version numbers consist of one or more revisions joined by a dot '.'. Each revision consists of digits and may contain leading zeros. Every revision contains at least one character. Revisions are 0-indexed from left to right, with the leftmost revision being revision 0, the next revision being revision 1, and so on. For example 2.5.33 and 0.1 are valid version numbers.
+
+To compare version numbers, compare their revisions in left-to-right order. Revisions are compared using their integer value ignoring any leading zeros. This means that revisions 1 and 001 are considered equal. If a version number does not specify a revision at an index, then treat the revision as 0. For example, version 1.0 is less than version 1.1 because their revision 0s are the same, but their revision 1s are 0 and 1 respectively, and 0 < 1.
+
+Return the following:
+
+If version1 < version2, return -1.
+If version1 > version2, return 1.
+Otherwise, return 0.
+
+
+
+
+
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        int n1=version1.length();
+        int n2=version2.length();
+        int a=0,b=0;
+        
+        vector<int> v1;
+        vector<int> v2;
+        
+        string temp1="",temp2="";
+        
+        while(a<n1){
+            if(version1[a]!='.'){
+                temp1=temp1+version1[a];
+                
+            }else{
+                int val=stoi(temp1);
+                v1.push_back(val);
+                temp1="";
+            }
+            a++;
+        }
+        int val=stoi(temp1);
+        v1.push_back(val);
+        temp1="";
+        
+        while(b<n2){
+            if(version2[b]!='.'){
+                temp2=temp2+version2[b];
+                
+            }else{
+                int val=stoi(temp2);
+                v2.push_back(val);
+                temp2="";
+            }
+            b++;
+        }
+        val=stoi(temp2);
+        v2.push_back(val);
+        temp2="";
+        
+        n1=v1.size();
+        n2=v2.size();
+        a=0,b=0;
+        
+        while(a<n1 && b<n2){
+            if(v1[a]<v2[b]) return -1;
+            else if(v1[a]>v2[b]) return 1;
+            
+            a++;b++;
+            
+        }
+        
+        while(a<n1){
+            if(v1[a]>0) return 1;
+            a++;
+        }
+        while(b<n2){
+            if(v2[b]>0) return -1;
+            b++;
+        }
+        
+        return 0;
+        
+        
+    }
+};
+problem link:-
+https://leetcode.com/problems/compare-version-numbers/
