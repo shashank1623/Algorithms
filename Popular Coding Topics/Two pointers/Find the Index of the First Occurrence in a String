@@ -1,0 +1,33 @@
+/*problem statement
+Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+ */
+ solution
+
+
+
+
+
+
+
+int strStr(string haystack, string needle) {
+        int n = haystack.size();
+        int find;
+        // to save space use this code
+        
+        find = haystack.find(needle);
+        return find;
+        
+        // to save time(100% faster)
+        for(int i = 0;i < n; i++){
+            if(haystack.substr(i, needle_size) == needle){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    
+    
+    problem link
+    https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
