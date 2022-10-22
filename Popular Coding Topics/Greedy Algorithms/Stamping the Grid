@@ -1,0 +1,43 @@
+problem
+You are given an m x n binary matrix grid where each cell is either 0 (empty) or 1 (occupied).
+
+You are then given stamps of size stampHeight x stampWidth. We want to fit the stamps such that they follow the given restrictions and requirements:
+
+Cover all the empty cells.
+Do not cover any of the occupied cells.
+We can put as many stamps as we want.
+Stamps can overlap with each other.
+Stamps are not allowed to be rotated.
+Stamps must stay completely inside the grid.
+Return true if it is possible to fit the stamps while following the given restrictions and requirements. Otherwise, return false.
+
+
+solution
+bool possibleToStamp(vector<vector<int>>& M, int h, int w) {
+        int m = M.size(), n = M[0].size();
+        vector<vector<int>> A(m + 1, vector<int>(n + 1)), B(m + 1, vector<int>(n + 1)), good(m, vector<int>(n));
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                A[i + 1][j + 1] = A[i + 1][j] + A[i][j + 1] - A[i][j] + (1 - M[i][j]);
+                if (i + 1 >= h && j + 1 >= w) {
+                    int x = i + 1 - h, y = j + 1 - w;
+                    if (A[i + 1][j + 1] - A[x][j + 1] - A[i + 1][y] + A[x][y] == w * h)
+                        good[i][j]++;
+                }
+            }
+        }
+        for (int i = 0; i < m; ++i)
+            for (int j = 0; j < n; ++j)
+                B[i + 1][j + 1] = B[i + 1][j] + B[i][j + 1] - B[i][j] + good[i][j];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int x = min(i + h, m), y = min(j + w, n);
+                if (M[i][j] == 0 && B[x][y] - B[i][y] - B[x][j] + B[i][j] == 0)
+                    return false;
+            }
+        }
+        return true;
+    }
+    problem link
+    
+    https://leetcode.com/problems/stamping-the-grid/
