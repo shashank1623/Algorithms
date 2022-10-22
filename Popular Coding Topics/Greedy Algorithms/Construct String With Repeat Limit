@@ -1,0 +1,35 @@
+Problem 
+You are given a string s and an integer repeatLimit. Construct a new string repeatLimitedString using the characters of s such that no letter appears more than repeatLimit times in a row. You do not have to use all characters from s.
+
+Return the lexicographically largest repeatLimitedString possible.
+
+A string a is lexicographically larger than a string b if in the first position where a and b differ, string a has a letter that appears later in the alphabet than the corresponding letter in b. If the first min(a.length, b.length) characters do not differ, then the longer string is the lexicographically larger one.
+
+ 
+ solution
+ class Solution {
+public:
+    string repeatLimitedString(string s, int limit) {
+        int cnt[26] = {};
+        string ans;
+        for (char c : s) cnt[c - 'a']++;
+        while (true) {
+            int i = 25;
+            bool onlyOne = false;
+            for (; i >= 0; --i) {
+                if (ans.size() && i == ans.back() - 'a' && cnt[i]) { // the character of our last batch still has some count left, so we only insert a single character in this batch
+                    onlyOne = true;
+                    continue;
+                }
+                if (cnt[i]) break; // found a character with positive count, fill with this character
+            }
+            if (i == -1) break; // no more characters to fill, break;
+            int fill = onlyOne ? 1 : min(cnt[i], limit);
+            cnt[i] -= fill;
+            while (fill--) ans += 'a' + i;
+        }
+        return ans;
+    }
+};
+problem link
+https://leetcode.com/problems/construct-string-with-repeat-limit/
